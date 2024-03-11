@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Viking Runners</title>
+    </head>
+
+    <body>
+        <h1>Viking Runners Check-in Process</h1>
+
+        <script>
+            /* two requirements 1) does a team have runners 2) does a team have a name. A nameless team with no runners is likely an error and shouldn't
+            show up during the sign-in process. To determine this, we could check how many runners a team has */
+
+            numberOfRunnersForTeam1 = 5;
+            numberOfRunnersForTeam2 = 0;
+            numberOfRunnersForTeam3 = undefined;
+
+            let doesTeam1HaveRunners = Boolean(numberOfRunnersForTeam1); // doesTeam1HaveRunners will be true because 5 is truthy
+            let doesTeam2HaveRunners = Boolean(numberOfRunnersForTeam2); // doesTeam2HaveRunners will be false because 0 is falsy
+            let doesTeam3HaveRunners = Boolean(numberOfRunnersForTeam3); // doesTeam3HaveRunners will be false because undefined is falsy
+
+            /* in this example we used Boolean() to convert a value to a boolean. If the value is truthy the function will return true, if the variable is falsy
+            the function will return false */
+
+            /* Another example might be if we want to check if a team name has been given. This can be done by passing a string into Boolean() */
+
+            let team1 = {}
+            let team2 = {}
+
+            team1.name = 'Team Warriors';
+            team2.name = '';
+
+            let isTeam1NameValid = Boolean(team1.name); // isTeam1NameValid will be true because 'Team Warriors' is truthy
+            let isTeam2NameValid = Boolean(team2.name); // isTeam2NameValid will be false because '' is an empty string and falsy
+
+            // note that '' is falsy, but a string with even a single empty space is considered a character and will be truthy
+
+            /* lets say the variable isTeamCheckedIn is set to false when a team starts checking in, and true when they've completed check-in.
+            A progress bar shows on the screen throughout the process and disappears when checkin is completed. We can set the second variable called 
+            shouldShowProgressBar that would hold the opposite value of isTeamCheckedIn. */
+
+            let isTeamCheckedIn = false;
+            let shouldShowProgressBar = !isTeamCheckedIn;
+
+            // Because the value of isTeamCheckedin is false, the shouldShowProgressBar statement will evaluate to true, negating the value of isTeamCheckedIn
+
+            /* The check-in system should perform a final check at the end to ensure all the team has met the requirements. This is the last chance for errors, so we
+            want to be thorough. To successfully check-in a team should have
+            1) a teams name
+            2) successfully paid
+            3) the number of runners is greater than 0 and less than 12 */
+
+            let teamName = "Weekend Warriors";
+            let teamHasPaid = true;
+            let teamRunnerCount = 8;
+
+            {
+                let isTeamCheckedIn = teamName && teamHasPaid && (teamRunnerCount > 0) && (teamRunnerCount <= 12) // evaluates to true if all conditions are truthy.
+            console.log(isTeamCheckedIn);
+        }
+
+            /* Viking Runners allows teams to purchase packages that include t-shirts, water bottles, and other running products during the check-in process. When
+            the system shows the available packages, a team can choose whether to purchase a package. The package's name should be recorded if the team decides to make
+            a purchase. If the team did not select a package, it should be recorded as "None". */;
+
+            let extraProductPackage = undefined // the team did not purchase a package
+            extraProductPackage = extraProductPackage || "None"; // results in "None" since extraProductPackage is falsy
+
+            /* The code above looks odd initially, but it uses a common method for setting a default value. Since undefined is falsy the OR (||) operator uses the second
+            value and assigns it to extraProductPackage. If extraProductPackage was initially a non-empty string value, it would simply keep it's initial value. We don't
+            want extraProductPacage to remain undefined, and we ensure this by using OR (||) to check it's value and assign a defaul tone if the initial value is falsy.
+            */
+
+         /* Viking Runners requires teams to have a certain number of runners based on the team's average minutes per mile pace. if the team has an average mile pace of
+         under 7min they can have as few as six runners. If the team has an average mile pace of 7min or higher they must have at least 12 runners. By checking these
+         conditions we can use the || operator to determine if a team has the required number of runners.
+         */
+
+         let teamCount = 6;
+         let averageMileTimeInMinutes = 6.5;
+
+         let isTeamRunnerCountSufficient = (averageMileTimeInMinutes < 7 && teamCount >= 6) || (averageMileTimeInMinutes >= 7 && teamCount >= 12);
+         // the averageMileTimeInMinutes is under 7 and the team has at least 6 runners, so this evaluates to true
+
+         /* this scenario shows that the team has enough team members because the team meets the first set of operands mile time under 7 min and at least 6 runners.
+         */
+
+         /* coming back to our first code example where a full team contained 12 people, Viking Runners also has "elite" teams where the max team is 6.
+        Elite teams run an average mile time of under 7min. Lets update our code that checks for team size to include logic for elite teams. */;
+
+        if (averageMileTimeInMinutes < 7) {
+                    if (teamCount < 6) {
+                        console.log("Inform the team that they are not a full team.");
+                    } else {
+                        console.log("This is a full team. Move onto the next step.");
+                    }
+        } else {
+                if (teamCount < 12) {
+                    console.log("Inform the team that they are not a full team.");
+                } else {
+                    console.log("This is a full team. Move onto the next step.");
+                }
+        }
+
+        /* you can start to see how nesting can lead to various outcomes. we can put if statements inside of if statements to handle every possible set of 
+        conditions. but just because we can, doesn't mean we should. as a good coding practice we shoudl always be looking for opportunities to simplify
+        our code, and we can simplify this example. How can this above nested code be simplified?*/;
+
+         let teamCount1 = 8;
+         let averageMileTimeInMinutes1 = 10;
+
+         let isTeamRunnerCountSufficient1 = (averageMileTimeInMinutes1 < 7 && teamCount1 >= 6) || (averageMileTimeInMinutes1 >= 7 && teamCount1 >= 12);
+        
+         // the averageMileTimeInMinutes1 is over 7, but the team has fewer than 12 runners so this evaluates to false.
+
+         /* In this case, the first set of operands is false and the || forces the code to look at the second operand. However the team does not meet the second
+         set of requirements (team count less than 12) and the isTeamRunnerCountSufficient1 is set to false.
+         */;
+
+         /* as a developer you should always be evaluating your code and trying to make it simpler, with coding simpler is better to reduce the effort of creating
+         the code and the effort on the equipment running the code. in the above example you really only need the first operand
+          (averageMileTimeInMinutes1 <7 && teamCount1 >= 6). Since if any part of this turns out false the expression will still tell us the team 
+            is not meeting a requirement.
+            */;
+
+            /* With the basics of if statements covered, lets look at how we might solve a simple problem with Viking RUnners. One fo the requirements of check-in is
+            to ensure that each team has the maximum number of runners 12. If they don't have a full team they can still run the race but the race coordinators
+            need to inform the team
+            */;
+
+         let teamCount2 = 10;
+
+         if (teamCount2 < 12) {
+            console.log("Inform the team that they are not a full team.");
+
+         }
+
+         /* Another requirement where all team members must have a name in the system. If a name is missing, the program should inform the race coordinator of the
+         omission. A blank string is falsy, so we can check if the names are blank inside the if statements conditional.
+         */;
+
+         let name1 = "";
+        
+         if (!name1) {
+            console.log("Ask the team captain to update the runner's name.");
+
+         }
+
+         /* Viking Runners puts teams into different divisions based on age so teams can compete in their resptective age groups. The junior divison is reserved for
+         a team where all the runners are under 18. By taking just the oldest runner's age, we can determine if the entire team is under 18.
+
+         The code to check if a team is in the junior division has already been written, but there's an error: the team division is always underfine regardless
+         of the oldest runner's age.
+        */
+         
+        let oldestAge = 17;
+        let teamDivision;
+
+        if (oldestAge < 18) {
+            teamDivision = 'junior';
+        }
+
+        console.log(teamDivision);
+
+        
+
+        /* We will now build out our division code to determine which of the three divisions a team belongs to using the following requirements:
+        1) If all the runners are younger than 18 years old, the team is assigned to the junior division
+        2) if the team is not in the junior division but has at least one team member under 40 years old, the team is assigned to the open division
+        3) if all runners are older than 40 year old, the team is assigned to the masters division
+
+        We will need to take into account the oldest and youngest runner of each team to determine the correct division */
+
+         // oldest is under 18, so this is a junior division team
+
+        let youngestAge = 16;
+        
+
+        if (oldestAge < 18) {
+            teamDivision = 'junior';
+        } else if (youngestAge < 40) {
+                    teamDivision = 'open';
+        }else {
+                    teamDivision = 'master';
+        }
+
+        console.log(teamDivision); // prints 'junior'
+
+        /* As a rule of thumb, the conditions that are more specific - or harder to meet - should come first, and the conditions that are less specific
+        - or are easier to meet - should come later.
+
+        it's easy to botch big conditional statements. in the following example, we can see some incorrect logic leading to one line of code never being used. */;
+
+        let oldestAge1 = 17; // this is a junior division team
+        let youngestAge1 = 16;
+
+        if (youngestAge1 <40) { // but we check this condition to early
+            teamDivision = 'open';
+        } else if (oldestAge1 < 18) {
+                teamDivision = 'junior'; // ALERT: this line NEVER runs, since all values less than 18 are also less than 40
+        } else {
+                teamDivision = 'master';
+        }
+
+        console.log(teamDivision); // prints 'open', but it is a junior team
+
+        /* in the above example we erroneously check for the open division first when we should be checking for the junior division. This is because if the oldest
+        runner is 18 or older, we simplify the remaining logic by ruling out one of the possibilities. If we know a team is not in the junior division, then all we need
+        to check is if the youngest runner is under 40 to select the correct division. */;
+
+        
+
+
+
+
+
+    
+
+
+        </script>
+    </body>
+</html>
